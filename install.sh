@@ -39,6 +39,5 @@ run_command_on_vm "$VM_NAME" "${HOST_DIR_NAME}/script/_configure.sh ${HOST_DIR_N
 
 msg_info "[Task 3]"
 msg_warn "Start env"
-
-sleep 120
+sleep ${SLEEP_BEFORE_START:-30}
 ${HOST_DIR_NAME}/start.sh

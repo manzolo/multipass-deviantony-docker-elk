@@ -39,5 +39,7 @@ run_command_on_vm "$VM_NAME" "${HOST_DIR_NAME}/script/_configure.sh ${HOST_DIR_N
 
 msg_info "[Task 3]"
 msg_warn "Start env"
-sleep ${SLEEP_BEFORE_START:-30}
+sleep ${SLEEP_BEFORE_START:-120}
 ${HOST_DIR_NAME}/start.sh
+
+rm -rf docker-elk

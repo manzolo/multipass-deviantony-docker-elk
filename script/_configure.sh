@@ -1,5 +1,5 @@
 #!/bin/bash
-source $(dirname $0)/__functions.sh
+. $(dirname $0)/__functions.sh
 HOST_DIR_NAME=$1
 
 #Install packages here
@@ -36,12 +36,12 @@ if [ $(id -gn) != $group ]; then
 fi
 
 
-wget https://github.com/deviantony/docker-elk/archive/refs/tags/${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz \
+export $(grep -v '^#' ${HOST_DIR_NAME}/env | xargs) && wget https://github.com/deviantony/docker-elk/archive/refs/tags/${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz \
 -O "docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
 tar -xzvf ./"docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
 mv docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE} docker-elk
 rm ./"docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz"
-cp ${HOST_DIR_NAME}/env-elk-docker docker-elk/.env
+cp ${HOST_DIR_NAME}/env-elk-docker ${HOST_DIR_NAME}/docker-elk/.env
 cd docker-elk
 #export $(grep -v '^#' .env | xargs) && env && 
 docker-compose down && docker-compose rm -f && docker-compose up -d

@@ -16,7 +16,9 @@ removehost
 addhost
 
 echo "------------------------------------------------"
-echo "Kibana:"
+msg_warn "Kibana:"
+msg_warn "user:elastic"
+msg_warn "password:changeme"
 msg_info "http://$VM_NAME:5601"
 echo ""
 

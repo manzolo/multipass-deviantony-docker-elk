@@ -30,6 +30,8 @@ multipass mount ${HOST_DIR_NAME} $VM_NAME
 
 multipass list
 
+rm -rf ${HOST_DIR_NAME}/docker-elk
+
 msg_info "[Task 2]"
 msg_warn "Configure $VM_NAME"
 
@@ -37,4 +39,6 @@ run_command_on_vm "$VM_NAME" "${HOST_DIR_NAME}/script/_configure.sh ${HOST_DIR_N
 
 msg_info "[Task 3]"
 msg_warn "Start env"
+
+sleep 120
 ${HOST_DIR_NAME}/start.sh

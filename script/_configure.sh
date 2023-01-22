@@ -35,6 +35,14 @@ if [ $(id -gn) != $group ]; then
   exec sg $group "$0 $*"
 fi
 
-git clone https://github.com/deviantony/docker-elk docker-elk
+
+wget https://github.com/deviantony/docker-elk/archive/refs/tags/${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz \
+-O "docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
+tar -xzvf ./"docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
+mv docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE} docker-elk
+rm ./"docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz"
+cp ${HOST_DIR_NAME}/env-elk-docker docker-elk/.env
 cd docker-elk
-docker-compose down && docker-compose rm -f && docker-compose  up -d
+#export $(grep -v '^#' .env | xargs) && env && 
+docker-compose down && docker-compose rm -f && docker-compose up -d
+

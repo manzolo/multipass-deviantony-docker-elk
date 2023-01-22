@@ -36,7 +36,7 @@ if [ $(id -gn) != $group ]; then
 fi
 
 
-export $(grep -v '^#' ${HOST_DIR_NAME}/env | xargs) && wget https://github.com/deviantony/docker-elk/archive/refs/tags/${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz \
+./${HOST_DIR_NAME}/env && wget https://github.com/deviantony/docker-elk/archive/refs/tags/${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz \
 -O "docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
 tar -xzvf ./"docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE}.tar.gz" && \
 mv docker-elk-${DEVIANTONY_DOCKER_ELK_RELEASE} docker-elk

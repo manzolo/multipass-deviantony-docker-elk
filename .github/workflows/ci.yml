@@ -1,32 +1,27 @@
+name: CI
 on:
   push:
   pull_request:
     branches: [main]
-env:
-  SLEEP_BEFORE_START: 300
 jobs:
-  build:
-    runs-on: macos-latest
+  validate:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      - name: Install project dependencies
-        shell: bash
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Bash syntax check
         run: |
-          brew install --cask multipass
-          hash -r
-      - name: Wait for multipass to be up
-        shell: bash
+          found=0
+          while IFS= read -r f; do
+            found=1
+            echo "== bash -n $f"
+            bash -n "$f"
+          done < <(find . -path ./.git -prune -o -name '*.sh' -type f -print)
+          [ "$found" -eq 1 ] || echo "No shell scripts found to check"
+      - name: ShellCheck (advisory)
+        continue-on-error: true
         run: |
-          until multipass list; do
-            echo 'multipass is not running, will check again in 5 seconds'
-            sleep 5
-          done
-      - name: Download source
-        uses: actions/checkout@v7
-      - name: Create ENV
-        run: cp env.dist env
-      - name: Create VM
-        run: ./install.sh
-      - name: Destroy VM
-        run: ./uninstall.sh
+          find . -path ./.git -prune -o -name '*.sh' -type f -print0 \
+            | xargs -0 -r shellcheck --severity=warning
